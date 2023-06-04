@@ -1,8 +1,6 @@
 {
-    "rooms": [
-        {
-            "name": "First Room",
-            "idRoom": 1,
+    "rooms": {
+        "room1": {
             "coinCount": 10,
             "area": {
                 "xmin": 0,
@@ -13,18 +11,17 @@
                 "zmax": 10
             }
         },
-        {
-            "name": "Second Room",
-            "idRoom": 2,
-            "coinCount": 20,
+        "room2": {
+            "coinCount": 5,
             "area": {
-                "xmin": 10,
-                "xmax": 20,
-                "ymin": 10,
-                "ymax": 20,
-                "zmin": 10,
-                "zmax": 20
+                "xmin": -5,
+                "xmax": 5,
+                "ymin": -5,
+                "ymax": 5,
+                "zmin": -5,
+                "zmax": 5
             }
         }
-    ]
+    },
+    "coinTTL": 3600
 }
