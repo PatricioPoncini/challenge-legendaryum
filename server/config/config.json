@@ -1,6 +1,6 @@
 {
     "rooms": {
-        "room1": {
+        "Excalibur": {
             "coinCount": 10,
             "area": {
                 "xmin": 0,
@@ -11,7 +11,7 @@
                 "zmax": 10
             }
         },
-        "room2": {
+        "Lancelot": {
             "coinCount": 5,
             "area": {
                 "xmin": -5,
@@ -21,7 +21,18 @@
                 "zmin": -5,
                 "zmax": 5
             }
+        },
+        "Galahad": {
+            "coinCount": 2,
+            "area": {
+                "xmin": 0,
+                "xmax": 30,
+                "ymin": 0,
+                "ymax": 30,
+                "zmin": 0,
+                "zmax": 25
+            }
         }
     },
-    "coinTTL": 3600
+    "coinTTL": 60
 }

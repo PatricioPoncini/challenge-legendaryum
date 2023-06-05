@@ -19,6 +19,7 @@ interface RoomConfig {
 
 interface Config {
     rooms: Record<string, RoomConfig>;
+    coinTTL: number;
 }
 
 interface Area {
@@ -39,13 +40,15 @@ const setAsync = promisify(client.set).bind(client);
 // Generar monedas por habitación
 export async function generateCoins() {
     try {
-        const rooms: Record<string, RoomConfig> = (config as Config).rooms;
+        const rooms = (config as Config).rooms;
+        const multi = client.multi();
+        const coinTTL = (config as Config).coinTTL;
+        let coinCount: number = 0;
         for (const roomName in rooms) {
             const room = rooms[roomName];
-            const coinCount = room.coinCount;
+            coinCount = room.coinCount;
             const area = room.area;
             for (let i = 0; i < coinCount; i++) {
-                // Hasheo del Id de la moneda
                 const coinId = uuidv4();
                 const position = generateRandomPosition(area);
                 const coinConfig: CoinConfig = {
@@ -58,15 +61,18 @@ export async function generateCoins() {
                     room: roomName,
                     position: position,
                 };
+                multi.set(`coin:${coinId}`, JSON.stringify(coinConfig));
+                multi.expire(`coin:${coinId}`, coinTTL);
+                multi.hset(`room:${roomName}:coins`, coinId, JSON.stringify(coinData));
+                multi.ttl(`coin:${coinId}`);
                 await setAsync(`coin:${coinId}`, JSON.stringify(coinConfig));
+                await client.expire(`coin:${coinId}`, 60);
                 await client.hset(`room:${roomName}:coins`, coinId, JSON.stringify(coinData));
             }
         }
         console.log("Coins generated successfully.");
     } catch (error) {
         console.log("Error generating coins: ", error);
-    } finally {
-        client.quit();
     }
 }
 
@@ -78,5 +84,3 @@ function generateRandomPosition(area: Area) {
     const z = Math.floor(Math.random() * (zmax - zmin + 1)) + zmin;
     return { x, y, z };
 }
-
-generateCoins();

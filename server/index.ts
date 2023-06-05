@@ -1,16 +1,21 @@
 import express from "express";
 import http from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
-// import redis from "redis";
 import IORedis from "ioredis";
 import { promisify } from "util";
 import config from "./config/config.json";
-import { generateCoins } from "./controllers/generateRomsAndCoins";
+import { generateCoins } from "./controllers/generateRomsAndCoins.controller";
+import coinsRoutes from "./routes/coins.routes";
+import roomsRoutes from "./routes/rooms.routes";
 
 const app = express();
 const server = http.createServer(app);
 const io = new SocketIOServer(server);
 const PORT = 4040;
+
+// Rutas de la API
+app.use("/", coinsRoutes);
+app.use("/", roomsRoutes);
 
 io.on("connection", () => {
     console.log("New user connected");
@@ -24,9 +29,10 @@ const client = new IORedis({
     port: 6379
 });
 
-// Convertit los métodos de callback a promesas
-const getAsync = promisify(client.get).bind(client);
-const setAsync = promisify(client.set).bind(client);
+// Convertir los métodos de callback a promesas
+export const getAsync = promisify(client.get).bind(client);
+export const setAsync = promisify(client.set).bind(client);
+export const hkeysAsync = promisify(client.hkeys).bind(client);
 
 // Guardar configuración en Redis
 async function saveConfigToRedis() {
