@@ -10,9 +10,11 @@
 - [uuid](https://www.npmjs.com/package/uuid)
 
 ## Funcionalidad del challenge 👨🏻‍💻
-Una vez que el server está activo ( ```npm run dev``` para hacerlo de forma local ) se carga el archivo ```config.json```donde está la configuración de la base de datos. Se carga en Redis, y esta tiene la cantidad y nombre de habitaciones, cantidad de monedas que se van a generar y tamaños máximos del area de las habitaciones. 
+Una vez que el server está activo ( ```npm run dev``` para hacerlo de forma local ) se carga el archivo ```config.json```donde está la configuración de la base de datos. Se carga en Redis, y esta tiene la cantidad y nombre de habitaciones, cantidad de monedas que se van a generar y tamaños máximos del area de las habitaciones. Como punto creativo, creé los nombres de las rooms basandome en palabras claves de la leyenda "Los Caballeros de la Mesa Redonda", ya que es algo que me pareció divertido, a la vez de darle un toque más original.
 
 Luego, teniendo en cuenta todas estas características se crean monedas en ubicaciones aleatorias, según las configuraciones anteriormente nombradas.
+
+La carga de las rooms y las coins se hace desde un JSON llamado ```config.json``` ya que se me hacía más fácil generarlas a las monedas junto con la room, nombres y demás datos a utilizar.
 
 ## Endpoints de la API 🎯
 |HTTP|Endpoint|Descripción|
