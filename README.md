@@ -20,4 +20,9 @@ Luego, teniendo en cuenta todas estas características se crean monedas en ubica
 |GET|localhost:4040/rooms|Ver todas las habitaciones disponibles|
 |GET|localhost:4040/coins/room/:room|Pasandole el nombre de la room, se obtienen las monedas disponibles de la esta|
 
-_Documentación en proceso..._
+## Documentación de Postman
+### REST API
+[Documentación Postman de la REST API](https://documenter.getpostman.com/view/21179839/2s93saZYA1)
+
+## Sockets
+[Documentación Postman de los Sockets](https://grey-eclipse-965103.postman.co/workspace/My-Workspace~6b2a21ab-4ef0-4228-8a70-125caf6585d1/collection/6481347c6f2d226d949e0fa6)
