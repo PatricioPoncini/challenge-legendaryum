@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import CoinConfig from "../models/CoinConfig";
 import CoinData from "../models/CoinData";
 import IORedis from "ioredis";
-import { promisify } from "util";
 import config from "../config/config.json";
+import { setAsync } from "..";
 
 interface RoomConfig {
     coinCount: number;
@@ -32,24 +32,22 @@ interface Area {
 }
 
 const client = new IORedis({
-    connectTimeout: 5000
+    host: "localhost",
+    port: 6379
 });
 
-const setAsync = promisify(client.set).bind(client);
-
-// Generar monedas por habitación
 export async function generateCoins() {
     try {
         const rooms = (config as Config).rooms;
         const multi = client.multi();
-        const coinTTL = (config as Config).coinTTL;
+        const coinTTL: number = (config as Config).coinTTL;
         let coinCount: number = 0;
         for (const roomName in rooms) {
             const room = rooms[roomName];
-            coinCount = room.coinCount;
-            const area = room.area;
+            let coinCount: number = room.coinCount;
+            const area: Area = room.area;
             for (let i = 0; i < coinCount; i++) {
-                const coinId = uuidv4();
+                const coinId: string = uuidv4();
                 const position = generateRandomPosition(area);
                 const coinConfig: CoinConfig = {
                     id: coinId,
@@ -76,7 +74,6 @@ export async function generateCoins() {
     }
 }
 
-// Generar posiciones aleatorias en x, y, z utilizando parametros
 function generateRandomPosition(area: Area) {
     const { xmin, xmax, ymin, ymax, zmin, zmax } = area;
     const x = Math.floor(Math.random() * (xmax - xmin + 1)) + xmin;
